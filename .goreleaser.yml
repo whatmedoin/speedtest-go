@@ -1,3 +1,4 @@
+version: 2
 project_name: 'speedtest-go'
 #dist: ./out
 before:
@@ -34,7 +35,7 @@ builds:
       - goos: windows
         goarch: arm64
     hooks:
-      post: upx -9 "{{ .Path }}"
+      post: upx -9 --force-macos "{{ .Path }}"
   - main: ./main.go
     id: speedtest-backend-freebsd
     binary: speedtest-backend
@@ -100,7 +101,8 @@ builds:
 archives:
   - format_overrides:
       - goos: windows
-        format: zip
+        formats:
+          - zip
     files:
       - README.md
       - LICENSE
@@ -108,10 +110,10 @@ archives:
 checksum:
   name_template: 'checksums.txt'
 changelog:
-  skip: false
+  disable: false
   sort: asc
 release:
   github:
-    owner: librespeed
+    owner: whatmedoin
     name: speedtest-go
   disable: false
